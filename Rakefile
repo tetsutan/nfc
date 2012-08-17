@@ -6,6 +6,7 @@ gem 'rake-compiler', '>= 0.4.1'
 require "rake/extensiontask"
 
 Hoe.plugin :debugging
+Hoe.plugin :compiler
 
 HOE = Hoe.spec('nfc') do
   developer('Aaron Patterson', 'aaronp@rubyforge.org')
