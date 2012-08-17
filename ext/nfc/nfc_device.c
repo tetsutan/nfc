@@ -10,7 +10,19 @@ static byte_t abtFelica[5] = { 0x00, 0xff, 0xff, 0x00, 0x00 };
  */
 static VALUE connect(VALUE klass, VALUE device_number)
 {
-  nfc_device_t * dev = nfc_connect(NULL);
+
+  int index = NUM2INT(device_number);
+  int max_device_count = index+1;
+  size_t szDeviceFound;
+
+  nfc_device_desc_t pnddDevices[max_device_count];
+  nfc_list_devices(pnddDevices, max_device_count, &szDeviceFound);
+
+  if((int)szDeviceFound < index+1)
+    rb_raise(rb_eRuntimeError, "could not find NFC device of selected index");
+
+  nfc_device_t * dev = nfc_connect(pnddDevices+index);
+
   if(!dev)
     rb_raise(rb_eRuntimeError, "could not find NFC device");
 

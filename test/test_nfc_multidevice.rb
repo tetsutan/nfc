@@ -22,7 +22,8 @@ class TestNFCMultidevice < Test::Unit::TestCase
 
   def test_nfc_3
     assert_raise(RuntimeError){
-      NFC.new 2
+      nfc = NFC.new 2
+      nfc.find
     }
   end
 
