@@ -12,14 +12,17 @@ require 'nfc/felica'
 class NFC
   VERSION = '2.1.0'
 
-  include Singleton
-
   ###
-  # Create a new NFC class.  This is private, do this instead:
-  #   NFC.instance
-  def initialize
+  # Create a new NFC class.
+  def initialize(device_number = 0)
     @device = nil
+    @device_number = device_number
     @mutex = Mutex.new
+  end
+
+  # backward compatibility
+  def self.instance
+    @@instance ||= new(0)
   end
 
   ###
@@ -49,7 +52,7 @@ class NFC
   ###
   # Get the device
   def device
-    @device ||= NFC::Device.connect
+    @device ||= NFC::Device.connect(@device_number)
   end
 
   ###

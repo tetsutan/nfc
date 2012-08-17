@@ -8,7 +8,7 @@ static byte_t abtFelica[5] = { 0x00, 0xff, 0xff, 0x00, 0x00 };
  *
  * Connect to the NFC device
  */
-static VALUE connect(VALUE klass)
+static VALUE connect(VALUE klass, VALUE device_number)
 {
   nfc_device_t * dev = nfc_connect(NULL);
   if(!dev)
@@ -161,7 +161,7 @@ void init_device()
   VALUE cNfcModulation;
   VALUE cNfcDevice = rb_define_class_under(cNfc, "Device", rb_cObject);
 
-  rb_define_singleton_method(cNfcDevice, "connect", connect, 0);
+  rb_define_singleton_method(cNfcDevice, "connect", connect, 1);
   rb_define_method(cNfcDevice, "disconnect", disconnect, 0);
   rb_define_method(cNfcDevice, "configure", configure, 2);
   rb_define_method(cNfcDevice, "select", dev_select, 1);
